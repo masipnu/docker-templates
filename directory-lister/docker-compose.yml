@@ -1,0 +1,24 @@
+services:
+
+  directory-lister:
+    image: directorylister/directorylister:<version>
+    environment:
+      APP_LANGUAGE: id
+      DISPLAY_READMES: true
+      READMES_FIRST: true
+      # ZIP_DOWNLOADS: true
+      TIMEZONE: Asia/Jakarta
+      CACHE_DRIVER: redis
+      REDIS_HOST: cache
+      REDIS_PORT: 6379
+      # See configuration docs for additional variables
+    ports:
+      - 80:80
+    volumes:
+      - <host_path>:/data
+    depends_on: [cache]
+    restart: unless-stopped
+
+  cache:
+    image: valkey:8
+    restart: unless-stopped
