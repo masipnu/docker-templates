@@ -1,0 +1,14 @@
+services:
+  metube:
+    image: ghcr.io/alexta69/metube
+    container_name: metube
+    environment:
+      - PUID=1000
+      - PGID=1000
+    restart: unless-stopped
+    ports:
+      - "8081:8081"
+    volumes:
+      - /docker/metube:/downloads
+
+# references : https://noted.lol/metube/
