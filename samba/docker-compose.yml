@@ -1,0 +1,15 @@
+services:
+  samba:
+    image: dockurr/samba
+    container_name: samba
+    environment:
+      NAME: "NAS"
+      USER: "admin"
+      PASS: "12345678"
+    ports:
+      - 445:445
+    volumes:
+      - ./samba:/storage
+    restart: always
+
+# from : https://github.com/dockur/samba
