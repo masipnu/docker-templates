@@ -1,0 +1,12 @@
+services:
+  yt-dlp-webui:
+    image: marcobaobao/yt-dlp-webui
+    ports:
+      - 80:3033
+    volumes:
+      - /downloads:/downloads # replace <your dir> with a directory on your host system
+    healthcheck:
+      test: curl -f http://localhost:3033 || exit 1
+    restart: unless-stopped
+
+# from https://github.com/marcopiovanello/yt-dlp-web-ui
