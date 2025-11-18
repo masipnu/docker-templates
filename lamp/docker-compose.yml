@@ -1,0 +1,30 @@
+# from https://musaamin.web.id/install-lamp-dengan-docker/
+
+services:
+    php-httpd:
+        image: php:7.4-apache
+        ports:
+            - 80:80
+        volumes:
+            - ./www:/var/www/html
+
+    mariadb:
+        image: mariadb:10.6.8
+        volumes:
+            - vol-mariadb:/var/lib/mysql
+        environment:
+            MYSQL_ALLOW_EMPTY_PASSWORD: "no"
+            MYSQL_ROOT_PASSWORD: "secret"
+            MYSQL_USER: "myuser"
+            MYSQL_PASSWORD: "mypass"
+            MYSQL_DATABASE: "mydb"
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        links:
+            - mariadb:db
+        ports:
+            - 81:80
+
+volumes:
+    vol-mariadb:            
