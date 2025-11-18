@@ -1,0 +1,36 @@
+services:
+  # Layanan Pemutar Musik Self-hosted
+  swingmusic:
+    image: ghcr.io/swingmx/swingmusic:latest
+    container_name: swingmusic
+    # Menggunakan /data di host sebagai lokasi musik dan konfigurasi
+    volumes:
+      - /data/music:/music
+      - /data/config/swingmusic:/config
+    ports:
+      - "80:1970"
+    environment:
+      # Penting: Sesuaikan PUID dan PGID agar sesuai dengan user di LXC Anda
+      - PUID=0 
+      - PGID=0
+    restart: unless-stopped
+
+  # Layanan untuk Mengunggah dan Mengelola File Musik
+  filebrowser:
+    image: filebrowser/filebrowser:s6
+    container_name: filebrowser
+    # Menggunakan /data di host sebagai direktori yang bisa diakses oleh FileBrowser
+    volumes:
+      # Akses ke folder musik yang sama dengan Swing Music
+      - /data/music:/srv 
+      # Lokasi database/konfigurasi FileBrowser
+      - /data/config/filebrowser/database:/database 
+      - /data/config/filebrowser/config:/config
+    ports:
+      - "81:80"
+    # Menggunakan environment variable untuk PUID/PGID
+    environment:
+      # Penting: Sesuaikan PUID dan PGID agar sesuai dengan user di LXC Anda
+      - PUID=0 
+      - PGID=0
+    restart: unless-stopped
