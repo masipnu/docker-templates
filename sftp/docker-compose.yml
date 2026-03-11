@@ -1,0 +1,14 @@
+services:
+  sftp-server:
+    image: mobilistics/sftp
+    ports:
+      - 2222:22/tcp
+      - 2222:22/udp
+    volumes:
+      - ./data:/data/incoming
+      - ./ssh:/ssh
+    environment:
+      - USER=admin  # ubah sesuai selera
+      - PASS=12345678  # ubah sesuai selera
+      - USER_ID=1000
+      - GROUP_ID=1000
